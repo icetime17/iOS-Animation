@@ -2,7 +2,7 @@
 //  LayoutAnimationViewController.m
 //  DemoAnimation
 //
-//  Created by zj－db0465 on 16/3/21.
+//  Created by Chris Hu on 16/3/21.
 //  Copyright © 2016年 icetime17. All rights reserved.
 //
 
@@ -34,9 +34,13 @@
     __typeof (&*self) __weak weakSelf = self;
     [UIView animateWithDuration:1.0f animations:^{
         weakSelf.constraintBottom.constant = 0.0f;
+        
+        // 使用frame来实现Animation，不需要layoutIfNeeded。
+        // 而使用Layout Animation，必须加layoutIfNeeded。
         [weakSelf.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         weakSelf.constraintBottom.constant = 100.0f;
+        
         [weakSelf.view layoutIfNeeded];
     }];
 }

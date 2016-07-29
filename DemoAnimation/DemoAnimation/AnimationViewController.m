@@ -65,11 +65,11 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     animated = NO;
     countdown = 3;
     
-    sections =              @[@"UIView Animation",
-                              @"Layout Animation",
-                              @"Key Frame Animation",
-                              @"Core Animation",
-                              @"Pop Animation"];
+    sections =              @[@"- UIView Animation",
+                              @"- Layout Animation",
+                              @"- Key Frame Animation",
+                              @"- Core Animation",
+                              @"- Pop Animation"];
     
     uiViewAnimations =      @[@"Position",
                               @"Opacity",
@@ -125,6 +125,7 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
 
 - (IBAction)demosAnimationStart:(UIButton *)sender {
     switch ([demosAnimation indexOfObject:_item]) {
+        // - UIView Animation
         case demoPositionAnimation:
             [self demoPositionAnimation];
             break;
@@ -150,16 +151,20 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
             [self demoTearOffAnimation];
             break;
             
+        // - Key Frame Animation
         case demoKeyFrameAnimation:
             [self demoKeyFrameAnimation];
             break;
             
+        // - Core Animation
         case demoPageCurlAnimation:
             [self demoPageCurlAnimation];
             break;
         case demoFlipAnimation:
             [self demoFlipAnimation];
             break;
+            
+        // - Pop Animation
         case demoPOPBasicAnimation:
             [self demoPOPBasicAnimation];
             break;

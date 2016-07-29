@@ -40,13 +40,14 @@ typedef NS_ENUM(NSInteger, EnumAnimation) {
     [super viewDidLoad];
     
     self.navigationItem.title = @"DemoAnimation";
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
-    sections =              @[@"UIView Animation",
-                              @"Layout Animation",
-                              @"Key Frame Animation",
-                              @"Core Animation",
-                              @"Pop Animation"];
+    sections =              @[@"- UIView Animation",
+                              @"- Layout Animation",
+                              @"- Key Frame Animation",
+                              @"- Core Animation",
+                              @"- Pop Animation"];
     
     uiViewAnimations =      @[@"Position",
                               @"Opacity",
@@ -104,11 +105,8 @@ typedef NS_ENUM(NSInteger, EnumAnimation) {
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellId = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     switch (indexPath.section) {
         case kUIViewAnimations:
