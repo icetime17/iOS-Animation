@@ -128,6 +128,7 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
         // - UIView Animation
         case demoPositionAnimation:
             [self demoPositionAnimation];
+            [self addPauseAndContinue];
             break;
         case demoOpacityAnimation:
             [self demoOpacityAnimation];
@@ -555,6 +556,50 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     basic.duration = 10 * 60;
     basic.beginTime = CACurrentMediaTime() + 1.0f;
     [label pop_addAnimation:basic forKey:@"countdown"];
+}
+
+#pragma mark - pause and continue
+
+- (void)addPauseAndContinue {
+    UIButton *btnPause = [[UIButton alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height - 150, 150, 44)];
+    [btnPause setTitle:@"Pause" forState:UIControlStateNormal];
+    [btnPause setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btnPause setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+    btnPause.layer.borderColor = [[UIColor grayColor] CGColor];
+    btnPause.layer.borderWidth = 2.0f;
+    [btnPause addTarget:self action:@selector(demosAnimationPause:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnPause];
+    
+    UIButton *btnContinue = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 10 - 150, self.view.frame.size.height - 150, 150, 44)];
+    [btnContinue setTitle:@"Continue" forState:UIControlStateNormal];
+    [btnContinue setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btnContinue setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+    btnContinue.layer.borderColor = [[UIColor grayColor] CGColor];
+    btnContinue.layer.borderWidth = 2.0f;
+    [btnContinue addTarget:self action:@selector(demosAnimationContinue:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnContinue];
+}
+
+- (void)demosAnimationPause:(UIButton *)sender {
+    // 时间需要转换
+    CFTimeInterval pauseTime = [view1.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    // 设置layer的timeOffset, 则视为CALayer的时间暂停
+    view1.layer.timeOffset = pauseTime;
+    // 暂停
+    view1.layer.speed = 0;
+}
+
+- (void)demosAnimationContinue:(UIButton *)sender {
+    // 时间转换
+    CFTimeInterval pauseTime = view1.layer.timeOffset;
+    // 计算暂停时间
+    CFTimeInterval timeSincePause = CACurrentMediaTime() - pauseTime;
+    // 取消
+    view1.layer.timeOffset = 0;
+    // 相对于父坐标系的beginTime
+    view1.layer.beginTime = timeSincePause;
+    // 继续
+    view1.layer.speed = 1;
 }
 
 @end
