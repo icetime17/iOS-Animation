@@ -181,7 +181,7 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
 
 - (void)demoPositionAnimation {
     if (!animated) {
-        [UIView animateWithDuration:2.0 animations:^{
+        [UIView animateWithDuration:10.0 animations:^{
             view1.frame = CGRectMake(self.view.frame.size.width - 100, 100, 100, 100);
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:2.0 animations:^{
@@ -578,6 +578,24 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     btnContinue.layer.borderWidth = 2.0f;
     [btnContinue addTarget:self action:@selector(demosAnimationContinue:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnContinue];
+    
+    UIButton *btnSpeedup = [[UIButton alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height -200, 150, 44)];
+    [btnSpeedup setTitle:@"Speed up" forState:UIControlStateNormal];
+    [btnSpeedup setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btnSpeedup setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+    btnSpeedup.layer.borderColor = [[UIColor grayColor] CGColor];
+    btnSpeedup.layer.borderWidth = 2.0f;
+    [btnSpeedup addTarget:self action:@selector(demosAnimationSpeedup:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnSpeedup];
+    
+    UIButton *btnSlowdown = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 10 - 150, self.view.frame.size.height - 200, 150, 44)];
+    [btnSlowdown setTitle:@"Slow down" forState:UIControlStateNormal];
+    [btnSlowdown setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btnSlowdown setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+    btnSlowdown.layer.borderColor = [[UIColor grayColor] CGColor];
+    btnSlowdown.layer.borderWidth = 2.0f;
+    [btnSlowdown addTarget:self action:@selector(demosAnimationSlowdown:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnSlowdown];
 }
 
 - (void)demosAnimationPause:(UIButton *)sender {
@@ -600,6 +618,18 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     view1.layer.beginTime = timeSincePause;
     // 继续
     view1.layer.speed = 1;
+}
+
+- (void)demosAnimationSpeedup:(UIButton *)sender {
+    view1.layer.timeOffset = [view1.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    view1.layer.beginTime = CACurrentMediaTime();
+    view1.layer.speed += 0.5;
+}
+
+- (void)demosAnimationSlowdown:(UIButton *)sender {
+    view1.layer.timeOffset = [view1.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    view1.layer.beginTime = CACurrentMediaTime();
+    view1.layer.speed -= 0.5;
 }
 
 @end
