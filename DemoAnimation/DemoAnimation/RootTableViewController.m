@@ -62,6 +62,8 @@ typedef NS_ENUM(NSInteger, EnumAnimation) {
     coreAnimations =        @[@"CA Page Curl",
                               @"CA Flip"];
     popAnimations =         @[@"POPBasicAnimation",
+                              @"POPSpringAnimation",
+                              @"POPDecayAnimation",
                               @"POPAnimatableProperty"];
     
     demosAnimation = [NSMutableArray arrayWithCapacity:0];
@@ -83,7 +85,7 @@ typedef NS_ENUM(NSInteger, EnumAnimation) {
 }
 
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return sections[section];
+    return [NSString stringWithFormat:@"%ld %@", (long)section, sections[section]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

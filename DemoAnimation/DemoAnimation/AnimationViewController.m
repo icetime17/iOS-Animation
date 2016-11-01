@@ -29,10 +29,15 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     
     // Pop Animation
     demoPOPBasicAnimation,
+    demoPOPSpringAnimation,
+    demoPOPDecayAnimation,
     demoPOPAnimatableProperty,
 };
 
 @interface AnimationViewController ()
+<
+    CAAnimationDelegate
+>
 
 @end
 
@@ -84,6 +89,8 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     coreAnimations =        @[@"CA Page Curl",
                               @"CA Flip"];
     popAnimations =         @[@"POPBasicAnimation",
+                              @"POPSpringAnimation",
+                              @"POPDecayAnimation",
                               @"POPAnimatableProperty"];
     
     demosAnimation = [NSMutableArray arrayWithCapacity:0];
@@ -168,6 +175,12 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
         // - Pop Animation
         case demoPOPBasicAnimation:
             [self demoPOPBasicAnimation];
+            break;
+        case demoPOPSpringAnimation:
+            [self demoPOPSpringAnimation];
+            break;
+        case demoPOPDecayAnimation:
+            [self demoPOPDecayAnimation];
             break;
         case demoPOPAnimatableProperty:
             [self demoPOPAnimatableProperty];
@@ -533,6 +546,29 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     basic4.fromValue = [NSValue valueWithCGRect:view2.frame];
     basic4.toValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 300, 300)];
     [view2.layer pop_addAnimation:basic4 forKey:@"size"];
+}
+
+- (void)demoPOPSpringAnimation
+{
+    //springBounciness:4.0    //[0-20] 弹力 越大则震动幅度越大
+    //springSpeed     :12.0   //[0-20] 速度 越大则动画结束越快
+    //dynamicsTension :0      //拉力  接下来这三个都跟物理力学模拟相关 数值调整起来也很费时 没事不建议使用哈
+    //dynamicsFriction:0      //摩擦 同上
+    //dynamicsMass    :0      //质量 同上
+    POPSpringAnimation *anim1 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    anim1.toValue = @(view1.center.x + 200);
+    anim1.springBounciness = 20.f;
+    [view1 pop_addAnimation:anim1 forKey:@"position"];
+}
+
+- (void)demoPOPDecayAnimation
+{
+    //deceleration:0.998  //衰减系数(越小则衰减得越快)
+    //对POPDecayAnimation设置toValue是没有意义的 会被忽略(因为目的状态是动态计算得到的)
+    POPDecayAnimation *anDecay = [POPDecayAnimation animationWithPropertyNamed:kPOPLayerPositionX];
+    anDecay.velocity = @(600); // 初始速度,采用默认衰减系数.
+    anDecay.beginTime = CACurrentMediaTime();
+    [view1 pop_addAnimation:anDecay forKey:@"position"];
 }
 
 - (void)demoPOPAnimatableProperty {
