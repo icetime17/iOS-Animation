@@ -566,7 +566,7 @@ typedef NS_ENUM(NSInteger, enumDemoAnimation) {
     //deceleration:0.998  //衰减系数(越小则衰减得越快)
     //对POPDecayAnimation设置toValue是没有意义的 会被忽略(因为目的状态是动态计算得到的)
     POPDecayAnimation *anDecay = [POPDecayAnimation animationWithPropertyNamed:kPOPLayerPositionX];
-    anDecay.velocity = @(600); // 初始速度,采用默认衰减系数.
+    anDecay.velocity = @(600); // 初始速度, 采用默认衰减系数.
     anDecay.beginTime = CACurrentMediaTime();
     [view1 pop_addAnimation:anDecay forKey:@"position"];
 }
